@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:get/get.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController controller;
@@ -23,47 +25,50 @@ class InputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        fillColor: Colors.transparent,
-        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: this.color,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          this.labelText + ':',
+          style: Get.textTheme.bodyLarge!
+              .copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+        ),
+        CommonWidget.rowHeight(height: context.isTablet ? 24 : 12),
+        TextFormField(
+          decoration: InputDecoration(
+            fillColor: ColorConstants.bgInputColor,
+            // fillColor: ColorConstants.bgInputColor,
+            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: BorderSide(width: 1),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: BorderSide(width: 1),
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            focusColor: ColorConstants.bgInputColor,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: BorderSide(width: 1),
+            ),
+            filled: true,
+            isDense: true,
           ),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: this.color,
+          controller: this.controller,
+          style: TextStyle(
+            color: color,
+            fontSize: fontSize,
+            fontWeight: FontWeight.normal,
           ),
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        labelText: this.labelText,
-        labelStyle: TextStyle(
-          fontSize: fontSize - 2,
-          color: color,
-          height: 0.2,
-          fontWeight: FontWeight.normal,
-        ),
-        hintText: this.placeholder,
-        hintStyle: TextStyle(
-          fontSize: fontSize,
-          color: color,
-          fontWeight: FontWeight.normal,
-        ),
-        filled: true,
-        isDense: true,
-      ),
-      controller: this.controller,
-      style: TextStyle(
-        color: color,
-        fontSize: fontSize,
-        fontWeight: FontWeight.normal,
-      ),
-      keyboardType: this.keyboardType,
-      obscureText: this.password,
-      autocorrect: false,
-      validator: this.validator,
+          enabled: true,
+          keyboardType: this.keyboardType,
+          obscureText: this.password,
+          autocorrect: false,
+          validator: this.validator,
+        )
+      ],
     );
   }
 }

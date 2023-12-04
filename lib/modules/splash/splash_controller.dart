@@ -14,10 +14,10 @@ class SplashController extends GetxController {
       if (storage.getString(StorageConstants.token) != null) {
         Get.toNamed(Routes.HOME);
       } else {
-        Get.toNamed(Routes.AUTH);
+        Get.toNamed(Routes.LOGIN);
       }
     } catch (e) {
-      Get.toNamed(Routes.AUTH);
+      Get.toNamed(Routes.LOGIN);
     }
   }
 }

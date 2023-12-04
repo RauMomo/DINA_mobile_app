@@ -1,0 +1,10 @@
+import 'package:flutter_getx_boilerplate/modules/auth/login_controller.dart';
+import 'package:get/get.dart';
+
+class LoginBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<LoginController>(
+        () => LoginController(apiRepository: Get.find()));
+  }
+}

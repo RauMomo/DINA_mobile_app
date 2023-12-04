@@ -46,9 +46,9 @@ class BorderButton extends StatelessWidget {
           onTap: _callback,
           child: Container(
             decoration: BoxDecoration(
-                color: this.backgroundColor,
+                color: ColorConstants.primaryVariant,
                 borderRadius: BorderRadius.circular(this._radius)),
-            constraints: BoxConstraints(minWidth: 88, minHeight: 64),
+            padding: EdgeInsets.all(12),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -57,10 +57,9 @@ class BorderButton extends StatelessWidget {
                   Text(
                     _text,
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: hexToColor('#2F9AA0'),
-                    ),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   )
                 else
                   _child!,
@@ -83,7 +82,7 @@ class _GradientPainter extends CustomPainter {
     required double strokeWidth,
     required double radius,
     required Gradient gradient,
-  })   : this.strokeWidth = strokeWidth,
+  })  : this.strokeWidth = strokeWidth,
         this.radius = radius,
         this.gradient = gradient;
 

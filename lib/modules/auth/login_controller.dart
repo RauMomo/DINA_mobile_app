@@ -6,9 +6,9 @@ import 'package:flutter_getx_boilerplate/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthController extends GetxController {
+class LoginController extends GetxController {
   final ApiRepository apiRepository;
-  AuthController({required this.apiRepository});
+  LoginController({required this.apiRepository});
 
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final registerEmailController = TextEditingController();

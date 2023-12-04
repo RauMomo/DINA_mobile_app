@@ -4,7 +4,7 @@ import 'package:flutter_getx_boilerplate/routes/routes.dart';
 import 'package:flutter_getx_boilerplate/shared/shared.dart';
 import 'package:get/get.dart';
 
-class AuthScreen extends GetView<AuthController> {
+class AuthScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -34,7 +34,7 @@ class AuthScreen extends GetView<AuthController> {
           style: TextStyle(
             fontSize: CommonConstants.largeText,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).textTheme.headline6!.color,
+            color: Theme.of(context).textTheme.titleLarge!.color,
           ),
         ),
         SizedBox(height: 10.0),
@@ -43,7 +43,7 @@ class AuthScreen extends GetView<AuthController> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: CommonConstants.normalText,
-            color: Theme.of(context).textTheme.subtitle1!.color,
+            color: Theme.of(context).textTheme.titleMedium!.color,
           ),
         ),
         SizedBox(height: 50.0),

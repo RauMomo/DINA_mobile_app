@@ -4,7 +4,7 @@ import 'package:flutter_getx_boilerplate/shared/shared.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
-  final AuthController controller = Get.arguments;
+  final LoginController controller = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {

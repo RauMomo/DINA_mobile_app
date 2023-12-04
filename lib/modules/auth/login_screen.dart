@@ -2,86 +2,134 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/shared/shared.dart';
 import 'package:get/get.dart';
 
-import 'auth_controller.dart';
+import 'login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  final AuthController controller = Get.arguments;
+  final LoginController controller = Get.find<LoginController>();
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        GradientBackground(),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: CommonWidget.appBar(
-            context,
-            'Sign In',
-            Icons.arrow_back,
-            Colors.white,
+    return SafeArea(
+      child: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.topCenter,
+        children: [
+          Image.asset(
+            'assets/images/mrt_bg.png',
+            height: Get.height * 1,
+            fit: BoxFit.cover,
           ),
-          body: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
-            child: _buildForms(context),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: PreferredSize(
+              preferredSize: Size.zero,
+              child: SizedBox.shrink(),
+            ),
+            body: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 35.0),
+              child: _buildForms(context),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildForms(BuildContext context) {
     return Form(
       key: controller.loginFormKey,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InputField(
-              controller: controller.loginEmailController,
-              keyboardType: TextInputType.text,
-              labelText: 'Email address',
-              placeholder: 'Enter Email Address',
-              validator: (value) {
-                if (!Regex.isEmail(value!)) {
-                  return 'Email format error.';
-                }
+      child: Get.window.physicalSize.height > 320.0
+          ? _fullScreenForm(context)
+          : _scrollForm(context),
+    );
+  }
 
-                if (value.isEmpty) {
-                  return 'Email is required.';
-                }
-                return null;
-              },
-            ),
-            CommonWidget.rowHeight(),
-            InputField(
-              controller: controller.loginPasswordController,
-              keyboardType: TextInputType.emailAddress,
-              labelText: 'Password',
-              placeholder: 'Enter Password',
-              password: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Password is required.';
-                }
-
-                if (value.length < 6 || value.length > 15) {
-                  return 'Password should be 6~15 characters';
-                }
-
-                return null;
-              },
-            ),
-            CommonWidget.rowHeight(height: 80),
-            BorderButton(
-              text: 'Sign In',
-              backgroundColor: Colors.white,
-              onPressed: () {
-                controller.login(context);
-              },
-            ),
-          ],
+  _fullScreenForm(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Spacer(
+          flex: 2,
         ),
-      ),
+        Expanded(
+          child: Image.asset('assets/images/mrt_main_logo.png'),
+        ),
+        Spacer(
+          flex: 1,
+        ),
+        InputField(
+          controller: controller.loginEmailController,
+          keyboardType: TextInputType.text,
+          labelText: 'Server Link',
+          placeholder: 'Enter Email Address',
+          validator: (value) {
+            if (!Regex.isEmail(value!)) {
+              return 'Email format error.';
+            }
+
+            if (value.isEmpty) {
+              return 'Email is required.';
+            }
+            return null;
+          },
+        ),
+        CommonWidget.rowHeight(height: Get.context!.isTablet ? 24 : 12),
+        BorderButton(
+          text: 'Connect',
+          backgroundColor: Colors.white,
+          onPressed: () {
+            controller.login(context);
+          },
+        ),
+        Spacer(
+          flex: 2,
+        ),
+      ],
+    );
+  }
+
+  _scrollForm(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Spacer(
+          flex: 2,
+        ),
+        Expanded(
+          child: Image.asset('assets/images/mrt_main_logo.png'),
+        ),
+        Spacer(
+          flex: 1,
+        ),
+        InputField(
+          controller: controller.loginEmailController,
+          keyboardType: TextInputType.text,
+          labelText: 'Server Link',
+          placeholder: 'Enter Email Address',
+          validator: (value) {
+            if (!Regex.isEmail(value!)) {
+              return 'Email format error.';
+            }
+
+            if (value.isEmpty) {
+              return 'Email is required.';
+            }
+            return null;
+          },
+        ),
+        CommonWidget.rowHeight(height: context.isTablet ? 24 : 12),
+        BorderButton(
+          text: 'Connect',
+          backgroundColor: Colors.white,
+          onPressed: () {
+            controller.login(context);
+          },
+        ),
+        Spacer(
+          flex: 2,
+        ),
+      ],
     );
   }
 }
