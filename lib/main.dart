@@ -28,6 +28,7 @@ class App extends StatelessWidget {
       getPages: AppPages.routes,
       initialBinding: AppBinding(),
       smartManagement: SmartManagement.keepFactory,
+      defaultGlobalState: true,
       title: 'DINA Mobile App',
       theme: ThemeConfig.lightTheme,
       locale: TranslationService.locale,

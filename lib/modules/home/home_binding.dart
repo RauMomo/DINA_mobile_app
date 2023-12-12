@@ -6,6 +6,10 @@ class HomeBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<HomeController>(
-        () => HomeController(apiRepository: Get.find()));
+      fenix: false,
+      () => HomeController(
+        apiRepository: Get.find(),
+      ),
+    );
   }
 }

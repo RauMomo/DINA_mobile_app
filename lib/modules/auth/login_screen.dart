@@ -62,14 +62,10 @@ class LoginScreen extends StatelessWidget {
           controller: controller.loginEmailController,
           keyboardType: TextInputType.text,
           labelText: 'Server Link',
-          placeholder: 'Enter Email Address',
+          placeholder: 'Enter Server Link',
           validator: (value) {
-            if (!Regex.isEmail(value!)) {
-              return 'Email format error.';
-            }
-
-            if (value.isEmpty) {
-              return 'Email is required.';
+            if (value!.isEmpty) {
+              return 'Harap Isi Link Server';
             }
             return null;
           },

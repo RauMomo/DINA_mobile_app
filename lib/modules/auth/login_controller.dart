@@ -56,18 +56,7 @@ class LoginController extends GetxController {
   void login(BuildContext context) async {
     AppFocus.unfocus(context);
     if (loginFormKey.currentState!.validate()) {
-      final res = await apiRepository.login(
-        LoginRequest(
-          email: loginEmailController.text,
-          password: loginPasswordController.text,
-        ),
-      );
-
-      final prefs = Get.find<SharedPreferences>();
-      if (res!.token.isNotEmpty) {
-        prefs.setString(StorageConstants.token, res.token);
-        Get.toNamed(Routes.HOME);
-      }
+      Get.toNamed(Routes.HOME);
     }
   }
 

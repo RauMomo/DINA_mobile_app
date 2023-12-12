@@ -10,6 +10,7 @@ class InputField extends StatelessWidget {
   final Color color;
   final double fontSize;
   final bool password;
+  final Color? bgInputColor;
   final String? Function(String?)? validator;
 
   InputField({
@@ -20,6 +21,7 @@ class InputField extends StatelessWidget {
     this.color = Colors.white,
     this.fontSize = 22.0,
     this.password = false,
+    this.bgInputColor = ColorConstants.bgInputColor,
     this.validator,
   });
 
@@ -28,17 +30,19 @@ class InputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          this.labelText + ':',
-          style: Get.textTheme.bodyLarge!
-              .copyWith(color: Colors.white, fontWeight: FontWeight.w400),
-        ),
+        if (this.labelText.isNotEmpty)
+          Text(
+            this.labelText + ':',
+            style: Get.textTheme.bodyLarge!
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w400),
+          ),
         CommonWidget.rowHeight(height: context.isTablet ? 24 : 12),
         TextFormField(
           decoration: InputDecoration(
-            fillColor: ColorConstants.bgInputColor,
+            fillColor: bgInputColor!.withOpacity(0.75),
             // fillColor: ColorConstants.bgInputColor,
-            contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(width: 1),
@@ -47,6 +51,7 @@ class InputField extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               borderSide: BorderSide(width: 1),
             ),
+            hintText: this.placeholder,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             focusColor: ColorConstants.bgInputColor,
             border: OutlineInputBorder(

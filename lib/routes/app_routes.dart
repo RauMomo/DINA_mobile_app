@@ -5,6 +5,9 @@ abstract class Routes {
   static const AUTH = '/auth';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
+  static const VIDCALL = '/vidcall';
+  static const RATING = '/rating';
   static const HOME = '/home';
   static const CARDS = '/cards';
+  static const FAQ = '/faq';
 }

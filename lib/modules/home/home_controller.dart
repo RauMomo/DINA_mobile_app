@@ -1,11 +1,16 @@
+import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/api/api.dart';
 import 'package:flutter_getx_boilerplate/models/response/users_response.dart';
 import 'package:flutter_getx_boilerplate/modules/home/home.dart';
+import 'package:flutter_getx_boilerplate/routes/routes.dart';
 import 'package:flutter_getx_boilerplate/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+enum CallState { idle, calling, fullOperator, videoCall, failed }
 
 class HomeController extends GetxController {
   final ApiRepository apiRepository;
@@ -14,6 +19,18 @@ class HomeController extends GetxController {
   var currentTab = MainTabs.home.obs;
   var users = Rxn<UsersResponse>();
   var user = Rxn<Datum>();
+  Timer timer = Timer.new(
+    Duration(seconds: 0),
+    () => '',
+  );
+  Rx<CallState> callState = CallState.idle.obs;
+  var isCalling = false.obs;
+  var currentTime = ''.obs;
+  var count = 0.obs;
+
+  late ScrollController faqController;
+
+  late TextEditingController faqSearchController;
 
   late MainTab mainTab;
   late DiscoverTab discoverTab;
@@ -32,15 +49,63 @@ class HomeController extends GetxController {
     resourceTab = ResourceTab();
     inboxTab = InboxTab();
     meTab = MeTab();
+
+    faqController = ScrollController();
+    faqSearchController = TextEditingController();
+
+    count.listen((p0) {
+      if (p0 == 4) {
+        callState.value = CallState.fullOperator;
+      }
+      if (p0 == 8) {
+        callState.value = CallState.videoCall;
+        Get.toNamed(
+          Routes.VIDCALL,
+          arguments: [timer, currentTime],
+        );
+      }
+    });
+  }
+
+  @override
+  onClose() async {
+    super.onClose();
+    timer.cancel();
   }
 
   Future<void> loadUsers() async {
-    var _users = await apiRepository.getUsers();
-    if (_users!.data!.length > 0) {
-      users.value = _users;
-      users.refresh();
-      _saveUserInfo(_users);
-    }
+    // var _users = await apiRepository.getUsers();
+    // if (_users!.data!.length > 0) {
+    //   users.value = _users;
+    //   users.refresh();
+    //   _saveUserInfo(_users);
+    // }
+  }
+
+  endCall() {
+    count.value = 0;
+    callState.value = CallState.idle;
+    currentTime.value = '00:00';
+    isCalling.value = false;
+    timer.cancel();
+  }
+
+  setCall() {
+    callState.value = CallState.calling;
+
+    timer = Timer.periodic(
+      Duration(seconds: 1),
+      (timer) {
+        count++;
+        var minutes = (count / 60).floor();
+        var seconds = count % 60;
+
+        var parsedMinutes = minutes < 10 ? '0$minutes' : minutes.toString();
+        var parsedSeconds = seconds < 10 ? '0$seconds' : seconds.toString();
+        currentTime.value = '$parsedMinutes:$parsedSeconds';
+      },
+    );
+    isCalling.value = true;
   }
 
   void signout() {
@@ -82,6 +147,21 @@ class HomeController extends GetxController {
         return 4;
       default:
         return 0;
+    }
+  }
+
+  String get descriptionStatus {
+    switch (callState.value) {
+      case CallState.idle:
+        return '';
+      case CallState.calling:
+        return 'Menghubungkan';
+      case CallState.fullOperator:
+        return 'Menunggu Operator';
+      case CallState.videoCall:
+        return 'Video Call';
+      case CallState.failed:
+        return 'Gagal Menghubungkan';
     }
   }
 

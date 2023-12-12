@@ -98,7 +98,7 @@ class ThemeConfig {
           fontWeight: FontWeight.w300,
         ),
       ),
-      fontFamily: 'Rubik',
+      fontFamily: 'Roboto',
       unselectedWidgetColor: hexToColor('#DADCDD'),
       textTheme: TextTheme(
         displayLarge: baseTextTheme.displayLarge!.copyWith(
@@ -107,19 +107,19 @@ class ThemeConfig {
           fontWeight: FontWeight.bold,
         ),
         displayMedium: baseTextTheme.displayMedium!.copyWith(
-          color: primaryText,
+          color: ColorConstants.fadeTextColor,
           fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
         displaySmall: baseTextTheme.displaySmall!.copyWith(
-          color: secondaryText,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
+            color: secondaryText,
+            fontSize: 20,
+            fontWeight: FontWeight.w300,
+            height: 1.5),
         headlineMedium: baseTextTheme.headlineMedium!.copyWith(
           color: primaryText,
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
         ),
         headlineSmall: baseTextTheme.headlineSmall!.copyWith(
           color: primaryText,
@@ -127,8 +127,8 @@ class ThemeConfig {
           fontWeight: FontWeight.w700,
         ),
         titleLarge: baseTextTheme.titleLarge!.copyWith(
-          color: primaryText,
-          fontSize: 14,
+          color: Colors.white,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
         ),
         bodyLarge: baseTextTheme.bodyLarge!.copyWith(
@@ -137,12 +137,14 @@ class ThemeConfig {
         ),
         bodyMedium: baseTextTheme.bodyMedium!.copyWith(
           color: primaryText,
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w400,
+          height: pxToDouble(px: 14.06),
         ),
+        //button purposes
         labelLarge: baseTextTheme.labelLarge!.copyWith(
-          color: primaryText,
-          fontSize: 12.0,
+          color: Colors.white,
+          fontSize: 18.0,
           fontWeight: FontWeight.w700,
         ),
         bodySmall: baseTextTheme.bodySmall!.copyWith(

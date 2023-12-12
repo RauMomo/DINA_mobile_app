@@ -10,8 +10,11 @@ class ColorConstants {
   static Color darkGray = Color(0xFF9F9F9F);
   static Color black = Color(0xFF000000);
   static Color white = Color(0xFFFFFFFF);
-  static Color bgInputColor = Color(0xFFF2F2F2).withOpacity(0.75);
+  static const Color bgInputColor = Color(0xFFF2F2F2);
   static Color primaryVariant = Color(0xFF43B54A);
+  static Color mainColor = Color(0xFF1A4F9A);
+  static Color fadeTextColor = Color(0xFF7D7D7D);
+  static const Color goldenColor = Color(0xFFFFA800);
 }
 
 Color hexToColor(String hex) {
