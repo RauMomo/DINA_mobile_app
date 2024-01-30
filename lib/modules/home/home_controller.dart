@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/api/api.dart';
+import 'package:flutter_getx_boilerplate/api/websockets/websocket_provider.dart';
 import 'package:flutter_getx_boilerplate/models/response/users_response.dart';
 import 'package:flutter_getx_boilerplate/modules/home/home.dart';
 import 'package:flutter_getx_boilerplate/routes/routes.dart';
@@ -38,12 +39,43 @@ class HomeController extends GetxController {
   late InboxTab inboxTab;
   late MeTab meTab;
 
+  late String role;
+
+  final websocketProvider = Get.find<WebsocketProvider>();
+
   @override
   void onInit() async {
     super.onInit();
 
     mainTab = MainTab();
-    loadUsers();
+    late var client;
+    // loadUsers();
+
+    role = (Get.arguments as List).first;
+
+    if (role == 'client') {
+      client = DeviceRequest(
+        type: 'new',
+        data: DeviceData(
+            id: WebsocketProvider.clientDeviceId,
+            station: 'Senayan',
+            name: 'Testing Saja',
+            role: 'Client',
+            userAgent: "android"),
+      );
+    } else {
+      client = DeviceRequest(
+        type: 'new',
+        data: DeviceData(
+            id: WebsocketProvider.operatorDefaultId,
+            station: 'Senayan',
+            name: 'Testing Saja',
+            role: 'Operator',
+            userAgent: "android"),
+      );
+    }
+
+    await websocketProvider.init(client);
 
     discoverTab = DiscoverTab();
     resourceTab = ResourceTab();
@@ -54,10 +86,10 @@ class HomeController extends GetxController {
     faqSearchController = TextEditingController();
 
     count.listen((p0) {
-      if (p0 == 4) {
+      if (p0 == 300) {
         callState.value = CallState.fullOperator;
       }
-      if (p0 == 8) {
+      if (p0 == 360) {
         callState.value = CallState.videoCall;
         Get.toNamed(
           Routes.VIDCALL,
@@ -73,15 +105,6 @@ class HomeController extends GetxController {
     timer.cancel();
   }
 
-  Future<void> loadUsers() async {
-    // var _users = await apiRepository.getUsers();
-    // if (_users!.data!.length > 0) {
-    //   users.value = _users;
-    //   users.refresh();
-    //   _saveUserInfo(_users);
-    // }
-  }
-
   endCall() {
     count.value = 0;
     callState.value = CallState.idle;
@@ -90,7 +113,7 @@ class HomeController extends GetxController {
     timer.cancel();
   }
 
-  setCall() {
+  setCall() async {
     callState.value = CallState.calling;
 
     timer = Timer.periodic(
@@ -105,6 +128,7 @@ class HomeController extends GetxController {
         currentTime.value = '$parsedMinutes:$parsedSeconds';
       },
     );
+    await websocketProvider.initiateCall();
     isCalling.value = true;
   }
 
@@ -122,10 +146,6 @@ class HomeController extends GetxController {
     user.value = users.data![index];
     var prefs = Get.find<SharedPreferences>();
     prefs.setString(StorageConstants.userInfo, users.data![index].toRawJson());
-
-    // var userInfo = prefs.getString(StorageConstants.userInfo);
-    // var userInfoObj = Datum.fromRawJson(xx!);
-    // print(userInfoObj);
   }
 
   void switchTab(index) {

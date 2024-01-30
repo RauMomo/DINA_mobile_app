@@ -1,11 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/models/response/users_response.dart';
 import 'package:flutter_getx_boilerplate/modules/home/home.dart';
 import 'package:flutter_getx_boilerplate/shared/constants/colors.dart';
-
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class MainTab extends GetView<HomeController> {
   @override
@@ -14,7 +13,13 @@ class MainTab extends GetView<HomeController> {
       body: Obx(
         () => RefreshIndicator(
           child: _buildGridView(),
-          onRefresh: () => controller.loadUsers(),
+          onRefresh: () async {
+            print('ea');
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {},
+            );
+          },
         ),
       ),
     );

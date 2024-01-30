@@ -20,6 +20,9 @@ class LoginController extends GetxController {
   final loginEmailController = TextEditingController();
   final loginPasswordController = TextEditingController();
 
+  RxString deviceName = ''.obs;
+  RxString selectedRole = 'Client'.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -56,7 +59,10 @@ class LoginController extends GetxController {
   void login(BuildContext context) async {
     AppFocus.unfocus(context);
     if (loginFormKey.currentState!.validate()) {
-      Get.toNamed(Routes.HOME);
+      Get.toNamed(
+        Routes.HOME,
+        arguments: [selectedRole.toLowerCase()],
+      );
     }
   }
 

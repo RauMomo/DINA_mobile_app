@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:flutter_getx_boilerplate/shared/widgets/dropdown_field.dart';
 import 'package:get/get.dart';
 
 import 'login_controller.dart';
@@ -46,86 +47,141 @@ class LoginScreen extends StatelessWidget {
   }
 
   _fullScreenForm(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Spacer(
-          flex: 2,
-        ),
-        Expanded(
-          child: Image.asset('assets/images/mrt_main_logo.png'),
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        InputField(
-          controller: controller.loginEmailController,
-          keyboardType: TextInputType.text,
-          labelText: 'Server Link',
-          placeholder: 'Enter Server Link',
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Harap Isi Link Server';
-            }
-            return null;
-          },
-        ),
-        CommonWidget.rowHeight(height: Get.context!.isTablet ? 24 : 12),
-        BorderButton(
-          text: 'Connect',
-          backgroundColor: Colors.white,
-          onPressed: () {
-            controller.login(context);
-          },
-        ),
-        Spacer(
-          flex: 2,
-        ),
-      ],
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Spacer(
+            flex: 2,
+          ),
+          Expanded(
+            child: Image.asset('assets/images/mrt_main_logo.png'),
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          DropdownField(
+            onChanged: (p0) {
+              controller.selectedRole.value = p0!;
+            },
+            placeholder: 'Device Name',
+            labelText: 'Device Role',
+            dropdownValue: controller.selectedRole.value,
+          ),
+          // DropdownButton<String>(
+          //   menuMaxHeight: 200,
+          //   items: [
+          //     DropdownMenuItem(
+          //       value: 'Operator',
+          //       child: Text('Operator'),
+          //     ),
+          //     DropdownMenuItem(
+          //       value: 'Client',
+          //       child: Text('Client'),
+          //     ),
+          //   ],
+          //   value: controller.selectedRole.value,
+          //   onChanged: (value) {
+          //     controller.selectedRole.value = value!;
+          //   },
+          // ),
+          InputField(
+            controller: controller.loginEmailController,
+            keyboardType: TextInputType.text,
+            labelText: 'Device Name',
+            placeholder: 'Enter Device Name',
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Device Name is Required';
+              }
+              return null;
+            },
+          ),
+          CommonWidget.rowHeight(height: Get.context!.isTablet ? 24 : 12),
+          BorderButton(
+            text: 'Connect',
+            backgroundColor: Colors.white,
+            onPressed: () {
+              controller.login(context);
+            },
+          ),
+          Spacer(
+            flex: 2,
+          ),
+        ],
+      ),
     );
   }
 
   _scrollForm(context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Spacer(
-          flex: 2,
-        ),
-        Expanded(
-          child: Image.asset('assets/images/mrt_main_logo.png'),
-        ),
-        Spacer(
-          flex: 1,
-        ),
-        InputField(
-          controller: controller.loginEmailController,
-          keyboardType: TextInputType.text,
-          labelText: 'Server Link',
-          placeholder: 'Enter Email Address',
-          validator: (value) {
-            if (!Regex.isEmail(value!)) {
-              return 'Email format error.';
-            }
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Spacer(
+            flex: 2,
+          ),
+          Expanded(
+            child: Image.asset('assets/images/mrt_main_logo.png'),
+          ),
+          Spacer(
+            flex: 1,
+          ),
+          // InputField(
+          //   controller: controller.loginEmailController,
+          //   keyboardType: TextInputType.text,
+          //   labelText: 'Server Link',
+          //   placeholder: 'Enter Email Address',
+          //   validator: (value) {
+          //     if (!Regex.isEmail(value!)) {
+          //       return 'Email format error.';
+          //     }
 
-            if (value.isEmpty) {
-              return 'Email is required.';
-            }
-            return null;
-          },
-        ),
-        CommonWidget.rowHeight(height: context.isTablet ? 24 : 12),
-        BorderButton(
-          text: 'Connect',
-          backgroundColor: Colors.white,
-          onPressed: () {
-            controller.login(context);
-          },
-        ),
-        Spacer(
-          flex: 2,
-        ),
-      ],
+          //     if (value.isEmpty) {
+          //       return 'Email is required.';
+          //     }
+          //     return null;
+          //   },
+          // ),
+          DropdownButton<String>(
+            items: [
+              DropdownMenuItem(
+                child: Text('Operator'),
+              ),
+              DropdownMenuItem(
+                child: Text('Client'),
+              ),
+            ],
+            value: controller.selectedRole.value,
+            onChanged: (value) {
+              controller.selectedRole.value = value!;
+            },
+          ),
+          InputField(
+            controller: controller.loginEmailController,
+            keyboardType: TextInputType.text,
+            labelText: 'Device Name',
+            placeholder: 'Enter Device Name',
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Device Name is Required';
+              }
+              return null;
+            },
+          ),
+          CommonWidget.rowHeight(height: context.isTablet ? 24 : 12),
+          BorderButton(
+            text: 'Connect',
+            backgroundColor: Colors.white,
+            onPressed: () {
+              controller.login(context);
+            },
+          ),
+          Spacer(
+            flex: 2,
+          ),
+        ],
+      ),
     );
   }
 }
